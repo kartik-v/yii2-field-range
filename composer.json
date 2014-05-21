@@ -1,0 +1,23 @@
+{
+    "name": "kartik-v/yii2-field-range",
+    "description": "Easily manage Yii 2 ActiveField ranges (from/to) with Bootstrap 3 addons markup and more",
+    "keywords": ["yii2", "extension", "widget", "field-range", "range", "date", "from", "to", "addon", "bootstrap", "bootstrap 3"],
+    "homepage": "https://github.com/kartik-v/yii2-field-range",
+    "type": "yii2-extension",
+    "license": "BSD 3-Clause",
+    "authors": [
+        {
+            "name": "Kartik Visweswaran",
+            "email": "kartikv2@gmail.com",
+            "homepage": "http://www.krajee.com/"
+        }
+    ],
+    "require": {
+        "kartik-v/yii2-widgets": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "kartik\\": ""
+        }
+    }
+}
