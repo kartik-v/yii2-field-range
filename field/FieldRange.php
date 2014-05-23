@@ -389,12 +389,18 @@ class FieldRange extends \yii\base\Widget
             $this->setWidgetOptions($i);
             return $class::widget($this->$widgetOptions);
         }
+        $param1 = $this->$name;
+        $param2 = $this->$value;
+        
         if ($this->hasModel()) {
             $fieldType = 'active' . ucfirst($fieldType);
+            $param1 = $this->model;
+            $param2 = $this->$attribute;
         }
+        
         return $this->_isDropdown ?
-            Html::$fieldType($this->model, $this->$attribute, $this->$items, $this->$options) :
-            Html::$fieldType($this->model, $this->$attribute, $this->$options);
+            Html::$fieldType($param1, $param2, $this->$items, $this->$options) :
+            Html::$fieldType($param1, $param2, $this->$options);
     }
 
     /**
