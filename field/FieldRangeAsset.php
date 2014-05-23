@@ -2,7 +2,7 @@
 
 /**
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
- * @package yii2-slider
+ * @package yii2-field-range
  * @version 1.0.0
  */
 
