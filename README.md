@@ -38,7 +38,7 @@ to the ```require``` section of your `composer.json` file.
 ### field-range
 
 ```php
-use kartik\fieldrange\FieldRange;
+use kartik\field\FieldRange;
 echo FieldRange::widget([
     // options
 ]); 
