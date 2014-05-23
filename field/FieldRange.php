@@ -2,7 +2,7 @@
 
 /**
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
- * @package yii2-field-range
+ * @package yii2-slider
  * @version 1.0.0
  */
 
@@ -312,22 +312,22 @@ class FieldRange extends \yii\base\Widget
         $this->widgetOptions1['type'] = $class::TYPE_RANGE;
         $this->widgetOptions1['separator'] = $this->separator;
         if ($this->hasModel()) {
-            $this->widgetOptions1 = [
-                    'model' => $this->model,
-                    'attribute' => $this->attribute1,
-                    'attribute2' => $this->attribute2,
-                    'options' => $this->options,
-                    'options2' => $this->options2,
-                ] + $this->widgetOptions1;
+            $this->widgetOptions1 = ArrayHelper::merge($this->widgetOptions1, [
+                'model' => $this->model,
+                'attribute' => $this->attribute1,
+                'attribute2' => $this->attribute2,
+                'options' => $this->options,
+                'options2' => $this->options2,
+            ]);
         } else {
-            $this->widgetOptions1 = [
-                    'name' => $this->name1,
-                    'name2' => $this->name2,
-                    'value' => isset($this->value1) ? $this->value1 : null,
-                    'value2' => isset($this->value2) ? $this->value2 : null,
-                    'options' => $this->options1,
-                    'options2' => $this->options2,
-                ] + $this->widgetOptions1;
+            $this->widgetOptions1 = ArrayHelper::merge($this->widgetOptions1, [
+                'name' => $this->name1,
+                'name2' => $this->name2,
+                'value' => isset($this->value1) ? $this->value1 : null,
+                'value2' => isset($this->value2) ? $this->value2 : null,
+                'options' => $this->options1,
+                'options2' => $this->options2,
+            ]);
         }
         if (isset($this->form)) {
             $this->widgetOptions1['form'] = $this->form;
@@ -389,18 +389,12 @@ class FieldRange extends \yii\base\Widget
             $this->setWidgetOptions($i);
             return $class::widget($this->$widgetOptions);
         }
-        $param1 = $this->$name;
-        $param2 = $this->$value;
-        
         if ($this->hasModel()) {
             $fieldType = 'active' . ucfirst($fieldType);
-            $param1 = $this->model;
-            $param2 = $this->$attribute;
         }
-        
         return $this->_isDropdown ?
-            Html::$fieldType($param1, $param2, $this->$items, $this->$options) :
-            Html::$fieldType($param1, $param2, $this->$options);
+            Html::$fieldType($this->model, $this->$attribute, $this->$items, $this->$options) :
+            Html::$fieldType($this->model, $this->$attribute, $this->$options);
     }
 
     /**
@@ -416,17 +410,17 @@ class FieldRange extends \yii\base\Widget
         $options = "options{$i}";
         $widgetOptions = "widgetOptions{$i}";
         if ($this->hasModel()) {
-            $this->$widgetOptions = [
-                    'model' => $this->model,
-                    'attribute' => $this->$attribute,
-                    'options' => $this->$options
-                ] + $this->$widgetOptions;
+            $this->$widgetOptions = ArrayHelper::merge($this->widgetOptions, [
+                'model' => $this->model,
+                'attribute' => $this->$attribute,
+                'options' => $this->$options
+            ]);
         } else {
-            $this->$widgetOptions = [
-                    'name' => $this->$name,
-                    'value' => $this->$value,
-                    'options' => $this->$options
-                ] + $this->$widgetOptions;
+            $this->$widgetOptions = ArrayHelper::merge($this->widgetOptions, [
+                'name' => $this->$name,
+                'value' => $this->$value,
+                'options' => $this->$options
+            ]);
         }
     }
 
