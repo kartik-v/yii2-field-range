@@ -55,7 +55,7 @@ class FieldRange extends \yii\base\Widget
     /**
      * @var array HTML attributes for the label
      */
-    public $labelOptions = ['class' => 'control-label'];
+    public $labelOptions;
 
     /**
      * @var string the template to render the widget. The following special tags will be replaced:
@@ -74,53 +74,62 @@ class FieldRange extends \yii\base\Widget
      * @var string the first field's model attribute that this widget is associated with.
      */
     public $attribute1;
+
     /**
      * @var string the first field's input name. This must be set if [[model]] and [[attribute1]] are not set.
      */
     public $name1;
+
     /**
      * @var string the first field's input value.
      */
     public $value1;
+
     /**
      * @var array the option data items for first field if [[$type]] is dropDownList, listBox,
      * checkBoxList, or radioList.
      * @see \yii\helpers\Html::dropDownList() for details on how this is to be rendered.
      */
     public $items1 = [];
+
     /**
      * @var array the HTML attributes for the first field's input tag.
-     * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
      */
     public $options1 = [];
+
     /**
      * @var array the widget options for the first field if [[$type]] is [[FieldRange::INPUT_WIDGET]] or one of the
      * inputs from '\kartik\widgets'.
      */
     public $widgetOptions1 = [];
+
     /**
      * @var string the second field's model attribute that this widget is associated with.
      */
     public $attribute2;
+
     /**
      * @var string the second field's input name. This must be set if [[model]] and [[attribute2]] are not set.
      */
     public $name2;
+
     /**
      * @var string the second field's input value.
      */
     public $value2;
+
     /**
      * @var array the option data items for second field if [[$type]] is dropDownList, listBox,
      * checkBoxList, or radioList.
      * @see \yii\helpers\Html::dropDownList() for details on how this is to be rendered.
      */
     public $items2 = [];
+
     /**
      * @var array the HTML attributes for the second field's input tag.
-     * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
      */
     public $options2 = [];
+
     /**
      * @var array the widget options for the second field if [[$type]] is [[FieldRange::INPUT_WIDGET]] or one of the
      * inputs from '\kartik\widgets'.
@@ -277,6 +286,7 @@ class FieldRange extends \yii\base\Widget
 
     public function initOptions()
     {
+        Html::addCssClass($this->labelOptions, 'control-label');
         if (in_array($this->type, self::$_inputWidgets)) {
             $this->widgetClass = $this->type;
         }
@@ -352,7 +362,11 @@ class FieldRange extends \yii\base\Widget
         ]);
         Html::addCssClass($this->options1, 'form-control kv-field-from');
         Html::addCssClass($this->options2, 'form-control kv-field-to');
-        if ($this->_isDropdown) {
+        if ($this->type === self::INPUT_HTML5_INPUT) {
+            $input1 = $field1->$fieldType(ArrayHelper::remove($this->options1, 'type', 'text'), $this->options1);
+            $input2 = $field2->$fieldType(ArrayHelper::remove($this->options2, 'type', 'text'), $this->options2);
+
+        } elseif ($this->_isDropdown) {
             $input1 = $field1->$fieldType($this->items1, $this->options1);
             $input2 = $field2->$fieldType($this->items2, $this->options2);
         } elseif ($this->_isInput) {
@@ -389,12 +403,23 @@ class FieldRange extends \yii\base\Widget
             $this->setWidgetOptions($i);
             return $class::widget($this->$widgetOptions);
         }
+
+        $param1 = $this->$name;
+        $param2 = $this->$value;
+
         if ($this->hasModel()) {
             $fieldType = 'active' . ucfirst($fieldType);
+            $param1 = $this->model;
+            $param2 = $this->$attribute;
         }
+
+        if ($this->type === self::INPUT_HTML5_INPUT) {
+            return Html::$fieldType(ArrayHelper::remove($this->$options, 'type', 'text'), $param1, $param2, $this->$options);
+        }
+
         return $this->_isDropdown ?
-            Html::$fieldType($this->model, $this->$attribute, $this->$items, $this->$options) :
-            Html::$fieldType($this->model, $this->$attribute, $this->$options);
+            Html::$fieldType($param1, $param2, $this->$items, $this->$options) :
+            Html::$fieldType($param1, $param2, $this->$options);
     }
 
     /**
@@ -410,13 +435,13 @@ class FieldRange extends \yii\base\Widget
         $options = "options{$i}";
         $widgetOptions = "widgetOptions{$i}";
         if ($this->hasModel()) {
-            $this->$widgetOptions = ArrayHelper::merge($this->widgetOptions, [
+            $this->$widgetOptions = ArrayHelper::merge($this->$widgetOptions, [
                 'model' => $this->model,
                 'attribute' => $this->$attribute,
                 'options' => $this->$options
             ]);
         } else {
-            $this->$widgetOptions = ArrayHelper::merge($this->widgetOptions, [
+            $this->$widgetOptions = ArrayHelper::merge($this->$widgetOptions, [
                 'name' => $this->$name,
                 'value' => $this->$value,
                 'options' => $this->$options

@@ -5,6 +5,19 @@ A Yii 2 extension that allows you to easily setup ActiveField range fields with 
 the attributes joined together like a single field with a bootstrap addon separating the two. In addition, it enables you to display the field 
 validation error messages as one single block instead of separate validation errors for two fields.
 
+> NOTE: The FieldRange validation routine displays only the first error encountered in validation of either of the attributes.
+
+The key features supported by this widget extension are:
+
+- display the two range fields as a single grouped block using Bootstrap 3 addons
+- tweak yii active form validation to display validation errors as one single block instead of
+  separate error blocks under each field. This allows you to style your field range inputs better 
+  for various form layouts. No more misalignment of adjacent fields due to yii validation error messages.
+- ability to use any input from yii\helpers or any widget class for rendering the from and to fields.
+- default support for all widgets under `\kartik\widgets`. Special support for `\kartik\widgets\DatePicker` 
+  to render date ranges.
+- ability to use the kartik\datecontrol\DateControl widget which in turn can use any Date or Time widgets.
+
 > NOTE: This extension depends on the [kartik-v/yii2-widgets](https://github.com/kartik-v/yii2-widgets) extension which in turn depends on the 
 [yiisoft/yii2-bootstrap](https://github.com/yiisoft/yii2/tree/master/extensions/bootstrap) extension. Check the 
 [composer.json](https://github.com/kartik-v/yii2-field-range/blob/master/composer.json) for this extension's requirements and dependencies. 
@@ -40,7 +53,12 @@ to the ```require``` section of your `composer.json` file.
 ```php
 use kartik\field\FieldRange;
 echo FieldRange::widget([
-    // options
+    'form' => $form,
+    'model' => $model,
+    'label' => 'Enter start and end points',
+    'attribute1' => 'start_point',
+    'attribute2' => 'end_point',
+    'type' => FieldRange::INPUT_TEXT,
 ]); 
 ```
 
