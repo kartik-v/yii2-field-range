@@ -52,6 +52,8 @@ to the ```require``` section of your `composer.json` file.
 
 ```php
 use kartik\field\FieldRange;
+use kartik\widgets\ActiveForm;
+$form = ActiveForm::begin();
 echo FieldRange::widget([
     'form' => $form,
     'model' => $model,
@@ -59,7 +61,8 @@ echo FieldRange::widget([
     'attribute1' => 'start_point',
     'attribute2' => 'end_point',
     'type' => FieldRange::INPUT_TEXT,
-]); 
+]);
+ActiveForm::end();
 ```
 
 ## License
