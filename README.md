@@ -7,7 +7,7 @@ validation error messages as one single block instead of separate validation err
 
 > NOTE: 
 - The FieldRange validation routine displays only the first error encountered in validation of either of the attributes.
-- To understand setting up your model validation rules for ranges refer [this wiki](http://www.yiiframework.com/wiki/698/model-validation-for-field-ranges-using-yii2-field-range-extension/)
+- To understand setting up your model validation rules for the attributes when using this extension, refer [this wiki](http://www.yiiframework.com/wiki/698/model-validation-for-field-ranges-using-yii2-field-range-extension/)
 
 
 The key features supported by this widget extension are:
