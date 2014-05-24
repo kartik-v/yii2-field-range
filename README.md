@@ -5,7 +5,10 @@ A Yii 2 extension that allows you to easily setup ActiveField range fields with 
 the attributes joined together like a single field with a bootstrap addon separating the two. In addition, it enables you to display the field 
 validation error messages as one single block instead of separate validation errors for two fields.
 
-> NOTE: The FieldRange validation routine displays only the first error encountered in validation of either of the attributes.
+> NOTE: 
+- The FieldRange validation routine displays only the first error encountered in validation of either of the attributes.
+- To understand setting up your model validation rules for ranges refer [this wiki](http://www.yiiframework.com/wiki/698/model-validation-for-field-ranges-using-yii2-field-range-extension/)
+
 
 The key features supported by this widget extension are:
 
