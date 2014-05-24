@@ -26,7 +26,7 @@ may be updated when you install or update this extension. You may need to lock y
 for extension break if you do not wish to auto update dependencies.
 
 ### Demo
-You can see detailed [documentation](http://demos.krajee.com/field-range) on usage of the extension.
+You can see detailed [documentation and demos](http://demos.krajee.com/field-range) on usage of the extension.
 
 ## Installation
 
@@ -48,7 +48,7 @@ to the ```require``` section of your `composer.json` file.
 
 ## Usage
 
-### field-range
+### FieldRange
 
 ```php
 use kartik\field\FieldRange;
