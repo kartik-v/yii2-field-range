@@ -371,7 +371,7 @@ class FieldRange extends \yii\base\Widget
         $options1 = ArrayHelper::getValue($this->fieldConfig1, 'options', []);
         $options2 = ArrayHelper::getValue($this->fieldConfig2, 'options', []);
         Html::addCssClass($options1, 'kv-container-from form-control');
-        Html::addCssClass($options2, 'kv-container-from form-control');
+        Html::addCssClass($options2, 'kv-container-to form-control');
         $this->fieldConfig1 = ArrayHelper::merge($this->fieldConfig1, ['template' => '{input}{error}', 'options' => $options1]);
         $this->fieldConfig2 = ArrayHelper::merge($this->fieldConfig2, ['template' => '{input}{error}', 'options' => $options2]);
         Html::addCssClass($this->options1, 'form-control kv-field-from');

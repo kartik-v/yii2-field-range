@@ -52,3 +52,9 @@
     border-top-left-radius: 0 !important;
     border-bottom-left-radius: 0 !important;
 }
+
+.kv-container-to .input-group .input-group-addon:last-child {
+    border-radius: 4px !important;
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+}
