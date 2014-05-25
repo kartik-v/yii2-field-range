@@ -13,7 +13,7 @@ use yii\web\View;
 use yii\helpers\Json;
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
-use yii\widgets\ActiveForm;
+use kartik\widgets\ActiveForm;
 use yii\base\InvalidConfigException;
 
 /**
@@ -69,11 +69,18 @@ class FieldRange extends \yii\base\Widget
      * @var string the field separator string between first and second field
      */
     public $separator = '&larr; to &rarr;';
-
+    
     /**
      * @var string the first field's model attribute that this widget is associated with.
      */
     public $attribute1;
+
+    /**
+     * @var array the active field configuration for attribute1
+     * (applicable when [[$form]] property is set)
+     * @see \kartik\widgets\ActiveField
+     */
+    public $fieldConfig1 = [];
 
     /**
      * @var string the first field's input name. This must be set if [[model]] and [[attribute1]] are not set.
@@ -108,6 +115,13 @@ class FieldRange extends \yii\base\Widget
      */
     public $attribute2;
 
+    /**
+     * @var array the active field configuration for attribute2
+     * (applicable when [[$form]] property is set)
+     * @see \kartik\widgets\ActiveField
+     */
+    public $fieldConfig2 = [];
+    
     /**
      * @var string the second field's input name. This must be set if [[model]] and [[attribute2]] are not set.
      */
@@ -274,7 +288,7 @@ class FieldRange extends \yii\base\Widget
             throw new InvalidConfigException("Invalid value for 'type'. Must be one of the FieldRange::INPUT constants.");
         }
         if (isset($this->form) && !$this->form instanceof ActiveForm) {
-            throw new InvalidConfigException("The 'form' property must be an instance of 'yii\\widgets\\ActiveForm'.");
+            throw new InvalidConfigException("The 'form' property must be an instance of '\\kartik\\widgets\\ActiveForm'.");
         }
         if (isset($this->form) && !$this->hasModel()) {
             throw new InvalidConfigException("The 'model' and 'attribute1', 'attribute2' property must be set when 'form' is set.");
@@ -354,14 +368,16 @@ class FieldRange extends \yii\base\Widget
     {
         Html::addCssClass($this->options, 'input-group');
         $fieldType = $this->type;
-        $field1 = $this->form->field($this->model, $this->attribute1, [
-            'template' => '{input}{error}', 'options' => ['class' => 'kv-container-from form-control']
-        ]);
-        $field2 = $this->form->field($this->model, $this->attribute2, [
-            'template' => '{input}{error}', 'options' => ['class' => 'kv-container-to form-control']
-        ]);
+        $options1 = ArrayHelper::getValue($this->fieldConfig1, 'options', []);
+        $options2 = ArrayHelper::getValue($this->fieldConfig2, 'options', []);
+        Html::addCssClass($options1, 'kv-container-from form-control');
+        Html::addCssClass($options2, 'kv-container-from form-control');
+        $this->fieldConfig1 = ArrayHelper::merge($this->fieldConfig1, ['template' => '{input}{error}', 'options' => $options1]);
+        $this->fieldConfig2 = ArrayHelper::merge($this->fieldConfig2, ['template' => '{input}{error}', 'options' => $options2]);
         Html::addCssClass($this->options1, 'form-control kv-field-from');
         Html::addCssClass($this->options2, 'form-control kv-field-to');
+        $field1 = $this->form->field($this->model, $this->attribute1, $this->fieldConfig1);
+        $field2 = $this->form->field($this->model, $this->attribute2, $this->fieldConfig2);
         if ($this->type === self::INPUT_HTML5_INPUT) {
             $input1 = $field1->$fieldType(ArrayHelper::remove($this->options1, 'type', 'text'), $this->options1);
             $input2 = $field2->$fieldType(ArrayHelper::remove($this->options2, 'type', 'text'), $this->options2);
