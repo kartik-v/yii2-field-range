@@ -17,7 +17,8 @@ The key features supported by this widget extension are:
   separate error blocks under each field. This allows you to style your field range inputs better 
   for various form layouts. No more misalignment of adjacent fields due to yii validation error messages.
 - ability to use any input from yii\helpers or any widget class for rendering the from and to fields.
-- default support for all widgets under `\kartik\widgets`. Special support for `\kartik\widgets\DatePicker` 
+- enhanced usage with `\kartik\widgets\ActiveField` that allows you to add custom addons to prepend and append to your inputs.
+- default support for all widgets under `\kartik\widgets`. Special enhanced support for `\kartik\widgets\DatePicker` 
   to render date ranges.
 - ability to use the kartik\datecontrol\DateControl widget which in turn can use any Date or Time widgets.
 
