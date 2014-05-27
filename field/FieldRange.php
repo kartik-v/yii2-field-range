@@ -72,8 +72,8 @@ class FieldRange extends \yii\base\Widget
 
     /**
      * @var bool whether to use bootstrap 3 addons using `\kartik\widgets\ActiveField`
-     * If set to true, the form instance must be based on `\kartik\widgets\ActiveForm`.
-     * If set to false you can use your own widget based on `\yii\widgets\ActiveForm`.
+     * If set to `true`, the form instance must be based on `\kartik\widgets\ActiveForm`.
+     * If set to `false` you can use your own widget based on `\yii\widgets\ActiveForm`.
      * Defaults to `true`.
      */
     public $useAddons = true;
