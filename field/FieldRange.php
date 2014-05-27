@@ -69,7 +69,15 @@ class FieldRange extends \yii\base\Widget
      * @var string the field separator string between first and second field
      */
     public $separator = '&larr; to &rarr;';
-    
+
+    /**
+     * @var bool whether to use bootstrap 3 addons using `\kartik\widgets\ActiveField`
+     * If set to true, the form instance must be based on `\kartik\widgets\ActiveForm`.
+     * If set to false you can use your own widget based on `\yii\widgets\ActiveForm`.
+     * Defaults to `true`.
+     */
+    public $useAddons = true;
+
     /**
      * @var string the first field's model attribute that this widget is associated with.
      */
@@ -121,7 +129,7 @@ class FieldRange extends \yii\base\Widget
      * @see \kartik\widgets\ActiveField
      */
     public $fieldConfig2 = [];
-    
+
     /**
      * @var string the second field's input name. This must be set if [[model]] and [[attribute2]] are not set.
      */
@@ -287,8 +295,11 @@ class FieldRange extends \yii\base\Widget
         if (!$this->_isInput && $this->type !== self::INPUT_WIDGET && !in_array($this->type, self::$_inputWidgets)) {
             throw new InvalidConfigException("Invalid value for 'type'. Must be one of the FieldRange::INPUT constants.");
         }
-        if (isset($this->form) && !$this->form instanceof ActiveForm) {
+        if (isset($this->form) && $this->useAddons && !$this->form instanceof ActiveForm) {
             throw new InvalidConfigException("The 'form' property must be an instance of '\\kartik\\widgets\\ActiveForm'.");
+        }
+        if (isset($this->form) && !$this->useAddons && !$this->form instanceof \yii\widgets\ActiveForm) {
+            throw new InvalidConfigException("The 'form' property must be an instance of '\\yii\\widgets\\ActiveForm'.");
         }
         if (isset($this->form) && !$this->hasModel()) {
             throw new InvalidConfigException("The 'model' and 'attribute1', 'attribute2' property must be set when 'form' is set.");
