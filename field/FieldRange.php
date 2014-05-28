@@ -296,7 +296,7 @@ class FieldRange extends \yii\base\Widget
             throw new InvalidConfigException("Invalid value for 'type'. Must be one of the FieldRange::INPUT constants.");
         }
         if (isset($this->form) && $this->useAddons && !$this->form instanceof ActiveForm) {
-            throw new InvalidConfigException("The 'form' property must be an instance of '\\kartik\\widgets\\ActiveForm'.");
+            throw new InvalidConfigException("The 'form' property must be an instance of '\\kartik\\widgets\\ActiveForm' when 'useAddons' is set to true. ");
         }
         if (isset($this->form) && !$this->useAddons && !$this->form instanceof \yii\widgets\ActiveForm) {
             throw new InvalidConfigException("The 'form' property must be an instance of '\\yii\\widgets\\ActiveForm'.");
