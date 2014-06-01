@@ -289,7 +289,9 @@ class FieldRange extends \yii\base\Widget
         } else {
             Html::addCssClass($this->container, 'form-group');
             Html::addCssClass($this->options, 'input-group');
-            $widget = isset($this->form) ? $this->getFormInput() : $this->generateInput(1) . $this->separator . $this->generateInput(2);
+            $widget = isset($this->form) ? $this->getFormInput() : $this->getInput(1) .
+                '<span class="input-group-addon kv-field-separator">' . $this->separator . '</span>' .
+                $this->getInput(2);
             $widget = Html::tag('div', $widget, $this->options);
         }
         $error = Html::tag('div', '<div class="help-block"></div>', $this->errorContainer);
