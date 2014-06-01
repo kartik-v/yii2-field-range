@@ -158,6 +158,21 @@ class FieldRange extends \yii\base\Widget
      */
     public $widgetOptions2 = [];
 
+    /**
+     * @var array the HTML attributes for the generated widget input. This has the `input-group` CSS class set by default.
+     */
+    public $options = [];
+
+    /**
+     * @var array the HTML attributes for the widget container
+     */
+    public $widgetContainer = [];
+
+    /**
+     * @var array the HTML attributes for the common error block container
+     */
+    public $errorContainer = [];
+
     // input types
     const INPUT_TEXT = 'textInput';
     const INPUT_PASSWORD = 'passwordInput';
@@ -237,17 +252,7 @@ class FieldRange extends \yii\base\Widget
     private $_isDropdown = false;
 
     /**
-     * @var array the HTML options for the widget container
-     */
-    public $options = [];
-
-    /**
-     * @var array the HTML options for the common error block container
-     */
-    public $errorContainer = [];
-
-    /**
-     * @var array the HTML options for the common error block container
+     * @var array the HTML options for the main container
      */
     public $container = [];
 
@@ -284,6 +289,12 @@ class FieldRange extends \yii\base\Widget
 
     protected function renderWidget()
     {
+        if ($this->_isHorizontalForm) {
+            $style = $this->form->getFormLayoutStyle();
+            Html::addCssClass($this->labelOptions, $style['labelCss']);
+            Html::addCssClass($this->widgetContainer, $style['inputCss']);
+            Html::addCssClass($this->errorContainer, $style['offsetCss']);
+        }
         if ($this->type === self::INPUT_DATE) {
             $widget = $this->getDatePicker();
         } else {
@@ -294,14 +305,9 @@ class FieldRange extends \yii\base\Widget
                 $this->getInput(2);
             $widget = Html::tag('div', $widget, $this->options);
         }
+        $widget = Html::tag('div', $widget, $this->widgetContainer);
         $error = Html::tag('div', '<div class="help-block"></div>', $this->errorContainer);
 
-        if ($this->_isHorizontalForm) {
-            $style = $this->form->getFormLayoutStyle();
-            Html::addCssClass($this->labelOptions, $style['labelCss']);
-            $widget = '<div class="' . $style['inputCss'] . '">' . $widget . '</div>';
-            $error = '<div class="' . $style['offsetCss'] . '">' . $error . '</div>';
-        }
         echo Html::tag('div', strtr($this->template, [
             '{label}' => Html::label($this->label, null, $this->labelOptions),
             '{widget}' => $widget,
