@@ -251,12 +251,19 @@ class FieldRange extends \yii\base\Widget
      */
     public $container = [];
 
+    private $_isHorizontalForm = false;
+
     /**
      * Initializes the widget
      */
     public function init()
     {
         parent::init();
+        $this->_isHorizontalForm = $this->form instanceof ActiveForm && !empty($this->form->type) && $this->form->type == ActiveForm::TYPE_HORIZONTAL;
+        if ($this->_isHorizontalForm) {
+            $this->fieldConfig1['showLabels'] = false;
+            $this->fieldConfig2['showLabels'] = false;
+        }
         $this->_isInput = in_array($this->type, self::$_inputsList) && $this->type !== self::INPUT_WIDGET;
         $this->_isDropdown = in_array($this->type, self::$_dropDownInputs);
         $this->validateSettings();
@@ -272,14 +279,27 @@ class FieldRange extends \yii\base\Widget
     public function run()
     {
         parent::run();
+        $this->renderWidget();
+    }
+
+    protected function renderWidget()
+    {
         if ($this->type === self::INPUT_DATE) {
             $widget = $this->getDatePicker();
         } else {
+            Html::addCssClass($this->container, 'form-group');
             Html::addCssClass($this->options, 'input-group');
             $widget = isset($this->form) ? $this->getFormInput() : $this->generateInput(1) . $this->separator . $this->generateInput(2);
             $widget = Html::tag('div', $widget, $this->options);
         }
         $error = Html::tag('div', '<div class="help-block"></div>', $this->errorContainer);
+
+        if ($this->_isHorizontalForm) {
+            $style = $this->form->getFormLayoutStyle();
+            Html::addCssClass($this->labelOptions, $style['labelCss']);
+            $widget = '<div class="' . $style['inputCss'] . '">' . $widget . '</div>';
+            $error = '<div class="' . $style['offsetCss'] . '">' . $error . '</div>';
+        }
         echo Html::tag('div', strtr($this->template, [
             '{label}' => Html::label($this->label, null, $this->labelOptions),
             '{widget}' => $widget,
