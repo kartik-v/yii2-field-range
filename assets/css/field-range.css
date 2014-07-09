@@ -58,3 +58,54 @@
     border-top-left-radius: 0 !important;
     border-bottom-left-radius: 0 !important;
 }
+
+.grid-view .form-control::-moz-placeholder {
+	color: #ccc;
+}
+.grid-view .form-control:-ms-input-placeholder {
+	color: #ccc;
+}
+.grid-view .form-control::-webkit-input-placeholder {
+	color: #ccc;
+}
+
+.grid-view .input-daterange input  {
+	text-align: left;
+}
+
+.grid-view .kv-field-from .form-control, .grid-view .kv-field-from.form-control {
+	border-radius: 4px !important;
+    border-bottom-right-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+	border-bottom-width: 0;
+}
+
+.grid-view .kv-field-to .form-control, .grid-view .kv-field-to.form-control {
+	border-radius: 4px !important;
+    border-top-right-radius: 0 !important;
+    border-top-left-radius: 0 !important;
+}
+
+.grid-view .kv-field-from .bootstrap-touchspin .input-group-btn-vertical .bootstrap-touchspin-down {
+	border-bottom-width: 0;
+    border-bottom-right-radius: 0;
+}
+
+.grid-view .kv-field-to .bootstrap-touchspin .input-group-btn-vertical .bootstrap-touchspin-up {
+	border-bottom-width: 0;
+    border-top-right-radius: 0;
+	padding-bottom: 9px;
+}
+
+.grid-view .form-group {
+	margin-bottom: 0; 
+}
+
+.grid-view .help-block {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+.grid-view span.input-group-addon.kv-field-separator {
+	display: none;
+}

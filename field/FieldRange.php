@@ -8,6 +8,7 @@
 
 namespace kartik\field;
 
+use Yii;
 use yii\base\Model;
 use yii\web\View;
 use yii\helpers\Json;
@@ -303,13 +304,13 @@ class FieldRange extends \yii\base\Widget
             $widget = isset($this->form) ? $this->getFormInput() : $this->getInput(1) .
                 '<span class="input-group-addon kv-field-separator">' . $this->separator . '</span>' .
                 $this->getInput(2);
-            $widget = Html::tag('div', $widget, $this->options);
-        }
+            $widget = Html::tag('div', $widget, $this->separator ? $this->options : []);
+         }
         $widget = Html::tag('div', $widget, $this->widgetContainer);
         $error = Html::tag('div', '<div class="help-block"></div>', $this->errorContainer);
 
         echo Html::tag('div', strtr($this->template, [
-            '{label}' => Html::label($this->label, null, $this->labelOptions),
+            '{label}' =>$this->separator ?  Html::label($this->label, null, $this->labelOptions) : '',
             '{widget}' => $widget,
             '{error}' => $error
         ]), $this->container);
@@ -340,6 +341,8 @@ class FieldRange extends \yii\base\Widget
     public function initOptions()
     {
         Html::addCssClass($this->labelOptions, 'control-label');
+        Html::addCssClass($this->options1, 'kv-field-from');
+        Html::addCssClass($this->options2, 'kv-field-to');
         if (in_array($this->type, self::$_inputWidgets)) {
             $this->widgetClass = $this->type;
         }
@@ -361,6 +364,10 @@ class FieldRange extends \yii\base\Widget
         if (empty($this->errorContainer['id'])) {
             $this->errorContainer['id'] = $this->options1['id'] . '-error';
         }
+		if(empty($this->separator)) {
+			$this->options1['placeholder'] = Yii::t('app', 'From');
+			$this->options2['placeholder'] = Yii::t('app', 'To');
+		}
         $this->container['id'] = $this->options['id'] . '-container';
     }
 
@@ -374,7 +381,7 @@ class FieldRange extends \yii\base\Widget
         $class = self::INPUT_DATE;
         $this->widgetOptions1['type'] = $class::TYPE_RANGE;
         $this->widgetOptions1['separator'] = $this->separator;
-        if ($this->hasModel()) {
+       if ($this->hasModel()) {
             $this->widgetOptions1 = ArrayHelper::merge($this->widgetOptions1, [
                 'model' => $this->model,
                 'attribute' => $this->attribute1,
@@ -395,6 +402,12 @@ class FieldRange extends \yii\base\Widget
         if (isset($this->form)) {
             $this->widgetOptions1['form'] = $this->form;
         }
+		if(empty($this->separator)) {
+			$this->widgetOptions1['options']['placeholder'] = Yii::t('app', 'From');
+            Html::addCssClass($this->widgetOptions1['options'], 'kv-field-from');
+		}
+ 		$this->widgetOptions1['options']['placeholder'] = 'From';
+		
         return $class::widget($this->widgetOptions1);
     }
 
@@ -413,8 +426,8 @@ class FieldRange extends \yii\base\Widget
         Html::addCssClass($options2, 'kv-container-to form-control');
         $this->fieldConfig1 = ArrayHelper::merge($this->fieldConfig1, ['template' => '{input}{error}', 'options' => $options1]);
         $this->fieldConfig2 = ArrayHelper::merge($this->fieldConfig2, ['template' => '{input}{error}', 'options' => $options2]);
-        Html::addCssClass($this->options1, 'form-control kv-field-from');
-        Html::addCssClass($this->options2, 'form-control kv-field-to');
+        Html::addCssClass($this->options1, 'form-control');
+        Html::addCssClass($this->options2, 'form-control');
         $field1 = $this->form->field($this->model, $this->attribute1, $this->fieldConfig1);
         $field2 = $this->form->field($this->model, $this->attribute2, $this->fieldConfig2);
         if ($this->type === self::INPUT_HTML5_INPUT) {
