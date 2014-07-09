@@ -86,12 +86,12 @@
     border-top-left-radius: 0 !important;
 }
 
-.grid-view .kv-field-from .bootstrap-touchspin .input-group-btn-vertical .bootstrap-touchspin-down {
+.grid-view .kv-container-from .bootstrap-touchspin .input-group-btn-vertical .bootstrap-touchspin-down {
 	border-bottom-width: 0;
     border-bottom-right-radius: 0;
 }
 
-.grid-view .kv-field-to .bootstrap-touchspin .input-group-btn-vertical .bootstrap-touchspin-up {
+.grid-view .kv-container-to .bootstrap-touchspin .input-group-btn-vertical .bootstrap-touchspin-up {
 	border-bottom-width: 0;
     border-top-right-radius: 0;
 	padding-bottom: 9px;
