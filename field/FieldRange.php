@@ -342,16 +342,10 @@ class FieldRange extends \yii\base\Widget
     public function initOptions()
     {
         Html::addCssClass($this->labelOptions, 'control-label');
-        Html::addCssClass($this->options1, 'kv-field-from');
-        Html::addCssClass($this->options2, 'kv-field-to');
+        Html::addCssClass($this->options1, 'kv-field-from form-control');
+        Html::addCssClass($this->options2, 'kv-field-to form-control');
         if (in_array($this->type, self::$_inputWidgets)) {
             $this->widgetClass = $this->type;
-        }
-        if ($this->_isInput && empty($this->options1['class'])) {
-            Html::addCssClass($this->options1, 'form-control');
-        }
-        if ($this->_isInput && empty($this->options2['class'])) {
-            Html::addCssClass($this->options2, 'form-control');
         }
         if (empty($this->options['id'])) {
             $this->options['id'] = $this->getId();
