@@ -2,8 +2,8 @@
 
 /**
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
- * @package yii2-slider
- * @version 1.0.0
+ * @package yii2-field-range
+ * @version 1.1.0
  */
 
 namespace kartik\field;

@@ -1,6 +1,6 @@
 /*!
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
- * @version 1.0.0
+ * @version 1.1.0
  *
  * Client validation extension for the yii2-field-range extension
  * 
@@ -9,9 +9,11 @@
  * For more JQuery plugins visit http://plugins.krajee.com
  * For more Yii related demos visit http://demos.krajee.com
  */
-
 (function ($) {
-
+    var isArray = function (a) {
+        return Object.prototype.toString.call(a) === '[object Array]' || 
+            Object.prototype.toString.call(a) === '[object Object]';
+    };
     var KvFieldRange = function (element, options) {
         this.$attrTo = $(element);
         this.$attrFrom = $("#" + options.attrFrom);
@@ -31,66 +33,55 @@
             var self = this;
             self.$errorBlockFrom.hide();
             self.$errorBlockTo.hide();
-            self.$form.on('submit.yiiActiveForm', function () {
-                setTimeout(function () {
-                    self.setError(1);
-                    self.setError(2);
-                }, 1000);
-            });
-
             self.$form.on('reset.yiiActiveForm', function () {
                 setTimeout(function () {
                     self.reset();
                 }, 100);
             });
-            self.initEvent('blur.yiiActiveForm');
-            self.initEvent('change.yiiActiveForm');
-            self.initEvent('keyup.yiiActiveForm');
+            self.$form.on('afterValidate', function (event, messages, attribute) {
+                var idFrom = self.$attrFrom.attr('id'), idTo = self.$attrTo.attr('id');
+                if (typeof attribute === 'undefined') {
+                    if (idFrom in messages) {
+                        self.validateAttribute(messages[idFrom], idFrom, idTo);
+                    }
+                    if (idTo in messages) {
+                        self.validateAttribute(messages[idTo], idFrom, idTo);
+                    }
+                    return;
+                }
+                self.$errorBlock.html('');
+                self.$errorContainer.removeClass('has-success has-error');
+                if (attribute.id == idFrom || attribute.id == idTo) {
+                    self.validateAttribute(messages, idFrom, idTo);
+                }
+            });
+        },
+        validateAttribute: function (msg, idFrom, idTo) {
+            var self=this, len = msg.length, errMsg = '';
+            if (isArray(msg) && len) {
+                errMsg = len == 1 ? msg[0] : msg.join('</li><li>');
+            } else if (len > 0){
+                errMsg = msg;
+            }
+            if (errMsg != '') {
+                self.$errorBlock.html(errMsg);
+                self.$errorContainer.addClass('has-error');
+            } else {
+                self.$errorContainer.addClass('has-success');
+            }
+            if (msg.length == 0) {
+                $('#' + idFrom).closest('.has-error').removeClass('has-error').addClass('has-success');
+                $('#' + idTo).closest('.has-error').removeClass('has-error').addClass('has-success');
+            } else {
+                $('#' + idFrom).closest('.has-success').removeClass('has-success').addClass('has-error');
+                $('#' + idTo).closest('.has-success').removeClass('has-success').addClass('has-error');
+            }
         },
         reset: function () {
             var self = this;
             self.$errorBlock.html('');
-            self.$errorContainer.removeClass('has-success').removeClass('has-error');
-            self.$mainContainer.removeClass('has-success').removeClass('has-error');
-            self.$mainContainer.find('.input-group-btn .btn-default').removeClass('btn-success').removeClass('btn-danger');
-        },
-        initEvent: function (event) {
-            var self = this;
-            self.$attrFrom.on(event, function () {
-                setTimeout(function () {
-                    self.setError(1);
-                }, 100);
-            });
-
-            self.$attrTo.on(event, function () {
-                setTimeout(function () {
-                    self.setError(2);
-                }, 100);
-            });
-        },
-        setError: function (type) {
-            var self = this, msgFrom = self.$errorBlockFrom.html(), msgTo = self.$errorBlockTo.html(),
-                msg = (type == 1) ? msgFrom : msgTo;
-            self.$errorBlock.html('');
-            if (self.$errorBlockFrom.parent().hasClass('has-error') || self.$errorBlockTo.parent().hasClass('has-error')) {
-                self.$errorContainer.removeClass('has-success').addClass('has-error');
-                self.$mainContainer.removeClass('has-success').addClass('has-error');
-                self.$mainContainer.find('.input-group-btn .btn-default').removeClass('btn-success').addClass('btn-danger');
-            }
-            else if (self.$errorBlockFrom.parent().hasClass('has-success') || self.$errorBlockTo.parent().hasClass('has-success')) {
-                self.$errorContainer.removeClass('has-error').addClass('has-success');
-                self.$mainContainer.removeClass('has-error').addClass('has-success');
-                self.$mainContainer.find('.input-group-btn .btn-default').removeClass('btn-danger').addClass('btn-success');
-            }
-            if (msg) {
-                self.$errorBlock.html(msg);
-            }
-            else if (type == 1 && msgTo) {
-                self.$errorBlock.html(msgTo);
-            }
-            else if (type == 2 && msgFrom) {
-                self.$errorBlock.html(msgFrom);
-            }
+            self.$errorContainer.removeClass('has-success has-error');
+            self.$mainContainer.removeClass('has-success has-error');
         }
     };
 
