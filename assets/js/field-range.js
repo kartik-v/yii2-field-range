@@ -38,17 +38,17 @@
                     self.reset();
                 }, 100);
             });
-            self.$form.on('afterValidate', function (event, messages, attribute) {
+            self.$form.on('afterValidate', function (event, messages) {
                 var idFrom = self.$attrFrom.attr('id'), idTo = self.$attrTo.attr('id');
-                if (typeof attribute === 'undefined') {
-                    if (idFrom in messages) {
-                        self.validateAttribute(messages[idFrom], idFrom, idTo);
-                    }
-                    if (idTo in messages) {
-                        self.validateAttribute(messages[idTo], idFrom, idTo);
-                    }
-                    return;
+                if (idFrom in messages) {
+                    self.validateAttribute(messages[idFrom], idFrom, idTo);
                 }
+                if (idTo in messages) {
+                    self.validateAttribute(messages[idTo], idFrom, idTo);
+                }
+            });
+            self.$form.on('afterValidateAttribute', function (event, attribute, messages) {
+                var idFrom = self.$attrFrom.attr('id'), idTo = self.$attrTo.attr('id');
                 self.$errorBlock.html('');
                 self.$errorContainer.removeClass('has-success has-error');
                 if (attribute.id == idFrom || attribute.id == idTo) {
