@@ -19,7 +19,7 @@ class FieldRangeAsset extends \kartik\widgets\AssetBundle
 
     public function init()
     {
-        $this->setSourcePath(__DIR__ . '/../assets');
+        $this->setSourcePath(__DIR__ . '/assets');
         $this->setupAssets('css', ['css/field-range']);
         $this->setupAssets('js', ['js/field-range']);
         parent::init();
