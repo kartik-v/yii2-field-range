@@ -3,7 +3,7 @@
 /**
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
  * @package yii2-field-range
- * @version 1.1.0
+ * @version 1.2.0
  */
 
 namespace kartik\field;
@@ -14,9 +14,8 @@ namespace kartik\field;
  * @author Kartik Visweswaran <kartikv2@gmail.com>
  * @since 1.0
  */
-class FieldRangeAsset extends \kartik\widgets\AssetBundle
+class FieldRangeAsset extends \kartik\base\AssetBundle
 {
-
     public function init()
     {
         $this->setSourcePath(__DIR__ . '/assets');
