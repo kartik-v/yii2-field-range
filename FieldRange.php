@@ -326,7 +326,7 @@ class FieldRange extends \yii\base\Widget
         }
         if (isset($this->form) && $this->useAddons && !$this->form instanceof ActiveForm) {
             Config::checkDependency('form\ActiveForm', ['yii2-widget-activeform', 'yii2-widgets'], "when 'useAddons' is set to true.");
-            throw new InvalidConfigException("The 'form' property must be an instance of '\\kartik\\form\\ActiveForm' when 'useAddons' is set to true.");
+            throw new InvalidConfigException("The 'form' property must be an instance of '\\kartik\\form\\ActiveForm' or '\\kartik\\widgets\\ActiveForm' when 'useAddons' is set to true.");
         }
         if (isset($this->form) && !$this->useAddons && !$this->form instanceof \yii\widgets\ActiveForm) {
             throw new InvalidConfigException("The 'form' property must be an instance of '\\yii\\widgets\\ActiveForm'.");
