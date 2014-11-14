@@ -13,7 +13,8 @@ use yii\web\View;
 use yii\helpers\Json;
 use yii\helpers\Html;
 use yii\helpers\ArrayHelper;
-use kartik\widgets\ActiveForm;
+use kartik\base\Config;
+use kartik\form\ActiveForm;
 use yii\base\InvalidConfigException;
 
 /**
@@ -71,8 +72,8 @@ class FieldRange extends \yii\base\Widget
     public $separator = '&larr; to &rarr;';
 
     /**
-     * @var bool whether to use bootstrap 3 addons using `\kartik\widgets\ActiveField`
-     * If set to `true`, the form instance must be based on `\kartik\widgets\ActiveForm`.
+     * @var bool whether to use bootstrap 3 addons using `\kartik\form\ActiveField`
+     * If set to `true`, the form instance must be based on `\kartik\form\ActiveForm`.
      * If set to `false` you can use your own widget based on `\yii\widgets\ActiveForm`.
      * Defaults to `true`.
      */
@@ -86,7 +87,7 @@ class FieldRange extends \yii\base\Widget
     /**
      * @var array the active field configuration for attribute1
      * (applicable when [[$form]] property is set)
-     * @see \kartik\widgets\ActiveField
+     * @see \kartik\form\ActiveField
      */
     public $fieldConfig1 = [];
 
@@ -126,7 +127,7 @@ class FieldRange extends \yii\base\Widget
     /**
      * @var array the active field configuration for attribute2
      * (applicable when [[$form]] property is set)
-     * @see \kartik\widgets\ActiveField
+     * @see \kartik\form\ActiveField
      */
     public $fieldConfig2 = [];
 
@@ -324,7 +325,8 @@ class FieldRange extends \yii\base\Widget
             throw new InvalidConfigException("Invalid value for 'type'. Must be one of the FieldRange::INPUT constants.");
         }
         if (isset($this->form) && $this->useAddons && !$this->form instanceof ActiveForm) {
-            throw new InvalidConfigException("The 'form' property must be an instance of '\\kartik\\widgets\\ActiveForm' when 'useAddons' is set to true. ");
+            Config::checkDependency('form\ActiveForm', 'yii2-widget-activeform', "when 'useAddons' is set to true.");
+            throw new InvalidConfigException("The 'form' property must be an instance of '\\kartik\\form\\ActiveForm' when 'useAddons' is set to true.");
         }
         if (isset($this->form) && !$this->useAddons && !$this->form instanceof \yii\widgets\ActiveForm) {
             throw new InvalidConfigException("The 'form' property must be an instance of '\\yii\\widgets\\ActiveForm'.");

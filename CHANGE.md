@@ -1,8 +1,9 @@
 version 1.2.0
 =============
-**Date:** 10-Nov-2014
+**Date:** 15-Nov-2014
 
 - Set dependency on Krajee base components
+- (enh #6): Validate right dependency with kartik\form\ActiveForm.
 - Set release to stable
 
 version 1.1.0
