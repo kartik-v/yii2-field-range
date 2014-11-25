@@ -1,6 +1,6 @@
 /*!
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
- * @version 1.2.0
+ * @version 1.3.0
  *
  * Client validation extension for the yii2-field-range extension
  * 

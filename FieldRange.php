@@ -3,7 +3,7 @@
 /**
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
  * @package yii2-field-range
- * @version 1.2.0
+ * @version 1.3.0
  */
 
 namespace kartik\field;
@@ -521,8 +521,7 @@ class FieldRange extends \yii\base\Widget
             'errorContainer' => $this->errorContainer['id'],
         ]);
         $hashVar = $name . '_' . hash('crc32', $options);
-        $this->options['data-plugin-name'] = $name;
-        $this->options['data-plugin-options'] = $hashVar;
+        $this->options['data-krajee-'.$name] = $hashVar;
         $view->registerJs("var {$hashVar} = {$options};\n", View::POS_HEAD);
         $view->registerJs("{$id}.{$name}({$hashVar});");
     }
