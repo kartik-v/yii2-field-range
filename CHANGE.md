@@ -1,3 +1,12 @@
+version 1.3.1
+=============
+**Date:** 17-Feb-2015
+
+- (enh #8): Styling enhancements for bootstrap horizontal form layout
+- JS Lint changes and code cleanup.
+- Set copyright year to current.
+
+
 version 1.3.0
 =============
 **Date:** 25-Nov-2014

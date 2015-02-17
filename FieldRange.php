@@ -1,9 +1,9 @@
 <?php
 
 /**
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2015
  * @package yii2-field-range
- * @version 1.3.0
+ * @version 1.3.1
  */
 
 namespace kartik\field;
@@ -290,6 +290,7 @@ class FieldRange extends \yii\base\Widget
 
     protected function renderWidget()
     {
+        Html::addCssClass($this->options, 'kv-field-range');
         if ($this->_isHorizontalForm) {
             $style = $this->form->getFormLayoutStyle();
             Html::addCssClass($this->labelOptions, $style['labelCss']);
