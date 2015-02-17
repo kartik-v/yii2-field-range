@@ -6,7 +6,6 @@ version 1.3.1
 - JS Lint changes and code cleanup.
 - Set copyright year to current.
 
-
 version 1.3.0
 =============
 **Date:** 25-Nov-2014
