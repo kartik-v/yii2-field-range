@@ -1,5 +1,5 @@
 /*!
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2015
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2016
  * @version 1.3.1
  *
  * Client validation extension for the yii2-field-range extension
@@ -11,23 +11,32 @@
  */
 (function ($) {
     "use strict";
-    var isArray = function (a) {
-            return Object.prototype.toString.call(a) === '[object Array]' ||
+    var isArray, setContextCss, KvFieldRange;
+    isArray = function (a) {
+        return Object.prototype.toString.call(a) === '[object Array]' ||
             Object.prototype.toString.call(a) === '[object Object]';
-        },
-        KvFieldRange = function (element, options) {
-            var self= this;
-            self.$attrTo = $(element);
-            self.$attrFrom = $("#" + options.attrFrom);
-            self.$mainContainer = $("#" + options.container);
-            self.$errorContainer = $("#" + options.errorContainer);
-            self.$errorBlockFrom = self.$attrFrom.closest('.kv-container-from').find('.help-block');
-            self.$errorBlockTo = self.$attrTo.closest('.kv-container-to').find('.help-block');
-            self.$errorBlock = self.$errorContainer.find('.help-block');
-            self.$form = self.$attrFrom.closest('form');
-            self.errorToMsg = "";
-            self.init();
-        };
+    };
+    setContextCss = function(id, css) {
+        var $el = $('#' + id).closest('.' + css), altCss;
+        if (!$el.length) {
+            return;
+        }
+        altCss = css === 'has-success' ? 'has-error' : 'has-success';
+        $el.removeClass(altCss).addClass(css);
+    };
+    KvFieldRange = function (element, options) {
+        var self = this;
+        self.$attrTo = $(element);
+        self.$attrFrom = $("#" + options.attrFrom);
+        self.$mainContainer = $("#" + options.container);
+        self.$errorContainer = $("#" + options.errorContainer);
+        self.$errorBlockFrom = self.$attrFrom.closest('.kv-container-from').find('.help-block');
+        self.$errorBlockTo = self.$attrTo.closest('.kv-container-to').find('.help-block');
+        self.$errorBlock = self.$errorContainer.find('.help-block');
+        self.$form = self.$attrFrom.closest('form');
+        self.errorToMsg = "";
+        self.init();
+    };
 
     KvFieldRange.prototype = {
         constructor: KvFieldRange,
@@ -74,11 +83,11 @@
                 self.$errorContainer.addClass('has-success');
             }
             if (msg && msg.length) {
-                $('#' + idFrom).closest('.has-success').removeClass('has-success').addClass('has-error');
-                $('#' + idTo).closest('.has-success').removeClass('has-success').addClass('has-error');
+                setContextCss(idFrom, 'has-error');
+                setContextCss(idTo, 'has-error');
             } else {
-                $('#' + idFrom).closest('.has-error').removeClass('has-error').addClass('has-success');
-                $('#' + idTo).closest('.has-error').removeClass('has-error').addClass('has-success');
+                setContextCss(idFrom, 'has-success');
+                setContextCss(idTo, 'has-success');
             }
         },
         reset: function () {
@@ -93,19 +102,21 @@
         var args = Array.apply(null, arguments);
         args.shift();
         return this.each(function () {
-            var $this = $(this),
-                data = $this.data('kvFieldRange'),
-                options = typeof option === 'object' && option;
-
+            var self = $(this), data = self.data('kvFieldRange'), options = typeof option === 'object' && option;
             if (!data) {
-                data = new KvFieldRange(this, $.extend({}, options, $(this).data()));
-                $this.data('kvFieldRange', data);
+                data = new KvFieldRange(this, $.extend({}, $.fn.kvFieldRange.defaults, options, self.data()));
+                self.data('kvFieldRange', data);
             }
-
             if (typeof option === 'string') {
                 data[option].apply(data, args);
             }
         });
+    };
+
+    $.fn.kvFieldRange.defaults = {
+        attrFrom: '',
+        container: '',
+        errorContainer: ''
     };
 
     $.fn.kvFieldRange.Constructor = KvFieldRange;
