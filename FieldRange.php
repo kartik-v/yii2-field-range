@@ -15,7 +15,7 @@ use yii\web\View;
 use yii\helpers\Json;
 use yii\helpers\ArrayHelper;
 use kartik\base\Config;
-use kartik\helpers\Html;
+use yii\helpers\Html;
 use kartik\form\ActiveForm;
 use yii\base\InvalidConfigException;
 
