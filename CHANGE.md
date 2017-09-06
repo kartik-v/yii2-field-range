@@ -1,17 +1,25 @@
 Change Log: `yii2-field-range`
 ==============================
 
+## Version 1.3.2
+
+**Date:** 06-Sep-2017
+
+- (enh #24): Add new property `addInputCss` to override default `form-control` style.
+- (enh #22): Enhance `separator` config for both form and non-inputs.
+- (enh #21): Add composer dependencies for `yii2-helpers` and `yii2-widgets-activeform.
+
 ## Version 1.3.1
 
 **Date:** 03-Sep-2016
 
+- (enh #18): Enhancements to code and PHP documentation
+    - Enhance the field range plugin code.
+    - Enhance PHP Documentation for all classes and methods in the extension.
 - (enh #8): Styling enhancements for bootstrap horizontal form layout
 - JS Lint changes and code cleanup.
 - Set copyright year to current.
 - Add contribution and issue/PR log templates.
-- (enh #18): Enhancements to code and PHP documentation
-    - Enhance the field range plugin code.
-    - Enhance PHP Documentation for all classes and methods in the extension.
 
 ## Version 1.3.0
 
@@ -23,8 +31,8 @@ Change Log: `yii2-field-range`
 
 **Date:** 15-Nov-2014
 
-- Set dependency on Krajee base components
 - (enh #6): Validate right dependency with kartik\form\ActiveForm.
+- Set dependency on Krajee base components
 - Set release to stable
 
 ## Version 1.1.0

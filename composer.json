@@ -15,11 +15,17 @@
     "minimum-stability": "stable",
     "require": {
         "kartik-v/yii2-krajee-base": "*",
-        "kartik-v/yii2-helpers": "*"
+        "kartik-v/yii2-helpers": "*",
+        "kartik-v/yii2-widget-activeform": "*"
     },
     "autoload": {
         "psr-4": {
             "kartik\\field\\": ""
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.1.x-dev"
         }
     }
 }

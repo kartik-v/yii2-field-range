@@ -31,7 +31,7 @@ The key features supported by this widget extension are:
 You can see detailed [documentation and demos](http://demos.krajee.com/field-range) on usage of the extension.
 
 ## Latest Release
->NOTE: The latest version of the extension is v1.3.1. Refer the [CHANGE LOG](https://github.com/kartik-v/yii2-field-range/blob/master/CHANGE.md) for details.
+>NOTE: The latest version of the extension is v1.3.2. Refer the [CHANGE LOG](https://github.com/kartik-v/yii2-field-range/blob/master/CHANGE.md) for details.
 
 ## Installation
 

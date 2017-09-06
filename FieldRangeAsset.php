@@ -1,12 +1,14 @@
 <?php
 
 /**
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2016
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2017
  * @package yii2-field-range
- * @version 1.3.1
+ * @version 1.3.2
  */
 
 namespace kartik\field;
+
+use kartik\base\AssetBundle;
 
 /**
  * Field Range bundle for \kartik\field\FieldRange
@@ -14,8 +16,11 @@ namespace kartik\field;
  * @author Kartik Visweswaran <kartikv2@gmail.com>
  * @since 1.0
  */
-class FieldRangeAsset extends \kartik\base\AssetBundle
+class FieldRangeAsset extends AssetBundle
 {
+    /**
+     * @inheritdoc
+     */
     public function init()
     {
         $this->setSourcePath(__DIR__ . '/assets');
