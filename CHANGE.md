@@ -5,6 +5,7 @@ Change Log: `yii2-field-range`
 
 **Date:** 06-Sep-2017
 
+- Cleanup composer.json.
 - (enh #24): Add new property `addInputCss` to override default `form-control` style.
 - (enh #22): Enhance `separator` config for both form and non-inputs.
 - (enh #21): Add composer dependencies for `yii2-helpers` and `yii2-widgets-activeform.
