@@ -505,7 +505,7 @@ class FieldRange extends Widget
                     'model' => $this->model,
                     'attribute' => $this->attribute1,
                     'attribute2' => $this->attribute2,
-                    'options' => $this->options,
+                    'options' => $this->options1,
                     'options2' => $this->options2,
                 ]
             );
