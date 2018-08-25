@@ -1,9 +1,9 @@
 <?php
 
 /**
- * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2017
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2018
  * @package yii2-field-range
- * @version 1.3.2
+ * @version 1.3.3
  */
 
 namespace kartik\field;
@@ -14,7 +14,7 @@ use kartik\form\ActiveForm;
 use kartik\helpers\Html;
 use yii\base\InvalidConfigException;
 use yii\base\Model;
-use yii\base\Widget;
+use kartik\base\Widget;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 use yii\web\View;
@@ -24,7 +24,8 @@ use yii\web\View;
  * [[ActiveForm]] and [[\kartik\form\ActiveField]].
  *
  * The widget renders the range feature by implementing styling available with
- * [Bootstrap 3 input group addons markup](http://getbootstrap.com/components/#input-groups).
+ * - [Bootstrap 3 input group addons](http://getbootstrap.com/components/#input-groups) for [[bsVersion]] = `3.x`
+ * - [Bootstrap 4 input group addons](http://getbootstrap.com/components/#input-groups) for [[bsVersion]] = `4.x`
  *
  * @author Kartik Visweswaran <kartikv2@gmail.com>
  * @since 1.0
@@ -241,8 +242,12 @@ class FieldRange extends Widget
      * @var array HTML attributes for the separator. The following array keys are specially identified:
      *
      * - `tag`: _string_, the HTML tag used to render the separator container. Defaults to `span`.
+     * 
+     * Defaults to:
+     * - `['class' => 'input-group-addon']` for [[bsVersion]] = `3.x`
+     * - `['class' => 'input-group-text']` for [[bsVersion]] = `4.x`
      */
-    public $separatorOptions = ['class' => 'input-group-addon'];
+    public $separatorOptions = [];
     /**
      * @var boolean whether to implement and render bootstrap 3 addons using [[\kartik\form\ActiveField]].
      *
@@ -424,7 +429,8 @@ class FieldRange extends Widget
     public function initOptions()
     {
         Html::addCssClass($this->labelOptions, 'control-label');
-        Html::addCssClass($this->separatorOptions, 'kv-field-separator');
+        $css = $this->isBs4() ? 'input-group-text' : 'input-group-addon';
+        Html::addCssClass($this->separatorOptions, [$css, 'kv-field-separator']);
         if (isset(self::$_inputWidgets[$this->type])) {
             $this->widgetClass = $this->type;
         }
@@ -433,9 +439,6 @@ class FieldRange extends Widget
         }
         if ($this->_isInput) {
             Html::addCssClass($this->options2, $this->addInputCss);
-        }
-        if (empty($this->options['id'])) {
-            $this->options['id'] = $this->getId();
         }
         if (empty($this->options1['id'])) {
             $this->options1['id'] = $this->hasModel() ? Html::getInputId(
@@ -463,7 +466,6 @@ class FieldRange extends Widget
             $style = $this->form->getFormLayoutStyle();
             Html::addCssClass($this->labelOptions, $style['labelCss']);
             Html::addCssClass($this->widgetContainer, $style['inputCss']);
-            Html::addCssClass($this->errorContainer, $style['offsetCss']);
         }
         if ($this->type === self::INPUT_DATE) {
             $widget = $this->getDatePicker();
@@ -472,11 +474,18 @@ class FieldRange extends Widget
             Html::addCssClass($this->options, 'input-group');
             $tag = ArrayHelper::remove($this->separatorOptions, 'tag', 'span');
             $sep = Html::tag($tag, $this->separator, $this->separatorOptions);
+            if ($this->isBs4()) {
+                $sep = Html::tag('div', $sep, ['class' => 'input-group-append']);
+            }
             $getInput = isset($this->form) ? 'getFormInput' : 'getInput';
             $widget = Html::tag('div', $this->$getInput(1) . $sep . $this->$getInput(2), $this->options);
         }
         $widget = Html::tag('div', $widget, $this->widgetContainer);
-        $error = Html::tag('div', '<div class="help-block"></div>', $this->errorContainer);
+        $css = 'help-block';
+        if ($this->isBs4()) {
+            $css .= ' text-danger';
+        }
+        $error = Html::tag('div', '<div class="' . $css . '"></div>', $this->errorContainer);
         $replaceTokens = [
             '{label}' => Html::label($this->label, null, $this->labelOptions),
             '{widget}' => $widget,
@@ -626,19 +635,21 @@ class FieldRange extends Widget
         $widgetOptions = "widgetOptions{$i}";
         if ($this->hasModel()) {
             $this->$widgetOptions = ArrayHelper::merge(
-                $this->$widgetOptions, [
-                                         'model' => $this->model,
-                                         'attribute' => $this->$attribute,
-                                         'options' => $this->$options,
-                                     ]
+                $this->$widgetOptions,
+                [
+                    'model' => $this->model,
+                    'attribute' => $this->$attribute,
+                    'options' => $this->$options,
+                ]
             );
         } else {
             $this->$widgetOptions = ArrayHelper::merge(
-                $this->$widgetOptions, [
-                                         'name' => $this->$name,
-                                         'value' => $this->$value,
-                                         'options' => $this->$options,
-                                     ]
+                $this->$widgetOptions, 
+                [
+                    'name' => $this->$name,
+                    'value' => $this->$value,
+                    'options' => $this->$options,
+                ]
             );
         }
     }

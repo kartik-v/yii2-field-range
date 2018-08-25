@@ -1,6 +1,13 @@
 Change Log: `yii2-field-range`
 ==============================
 
+## Version 1.3.3
+
+**Date:** 25-Aug-2018
+
+- Updates to support Bootstrap 4.x.
+- Reorganize all source code to `src` directory.
+
 ## Version 1.3.2
 
 **Date:** 06-Sep-2017
