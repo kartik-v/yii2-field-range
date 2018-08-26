@@ -3,7 +3,7 @@
 /**
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2018
  * @package yii2-field-range
- * @version 1.3.3
+ * @version 1.3.4
  */
 
 namespace kartik\field;
@@ -24,7 +24,7 @@ class FieldRangeAsset extends AssetBundle
     public function init()
     {
         $this->setSourcePath(__DIR__ . '/assets');
-        $this->setupAssets('css', ['css/field-range']);
+        $this->setupAssets('css', ['css/field-range' . ($this->isBs4() ? '-bs4' : '-bs3')]);
         $this->setupAssets('js', ['js/field-range']);
         parent::init();
     }

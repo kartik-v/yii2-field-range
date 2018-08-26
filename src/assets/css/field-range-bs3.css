@@ -1,9 +1,10 @@
 /*!
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2018
  * @package yii2-field-range
- * @version 1.3.3
+ * @version 1.3.4
  *
- * Styling for Field Range
+ * Bootstrap 3.x Styling for Field Range 
+ *
  * Built for Yii Framework 2.0
  * Author: Kartik Visweswaran
  * For more Yii related demos visit http://demos.krajee.com
@@ -36,7 +37,9 @@
     border-bottom-right-radius: 0 !important;
 }
 
-.kv-container-to .form-control {
+.kv-container-to .form-control,
+.kv-container-to .input-group-prepend > .input-group-text,
+.kv-container-to .input-group-prepend > .btn {
     border-top-left-radius: 0 !important;
     border-bottom-left-radius: 0 !important;
 }

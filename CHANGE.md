@@ -1,6 +1,12 @@
 Change Log: `yii2-field-range`
 ==============================
 
+## Version 1.3.4
+
+**Date:** _under development_
+
+- (enh #28): Styling enhancements for BS addons.
+
 ## Version 1.3.3
 
 **Date:** 25-Aug-2018

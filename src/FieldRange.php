@@ -3,11 +3,12 @@
 /**
  * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2018
  * @package yii2-field-range
- * @version 1.3.3
+ * @version 1.3.4
  */
 
 namespace kartik\field;
 
+use Exception;
 use kartik\base\Config;
 use kartik\date\DatePicker;
 use kartik\form\ActiveForm;
@@ -242,7 +243,7 @@ class FieldRange extends Widget
      * @var array HTML attributes for the separator. The following array keys are specially identified:
      *
      * - `tag`: _string_, the HTML tag used to render the separator container. Defaults to `span`.
-     * 
+     *
      * Defaults to:
      * - `['class' => 'input-group-addon']` for [[bsVersion]] = `3.x`
      * - `['class' => 'input-group-text']` for [[bsVersion]] = `4.x`
@@ -376,6 +377,8 @@ class FieldRange extends Widget
 
     /**
      * @inheritdoc
+     * @throws InvalidConfigException
+     * @throws Exception
      */
     public function run()
     {
@@ -425,10 +428,11 @@ class FieldRange extends Widget
 
     /**
      * Initializes the widget options.
+     * @throws InvalidConfigException
      */
     public function initOptions()
     {
-        Html::addCssClass($this->labelOptions, 'control-label');
+        Html::addCssClass($this->labelOptions, ['control-label', 'col-form-label']);
         $css = $this->isBs4() ? 'input-group-text' : 'input-group-addon';
         Html::addCssClass($this->separatorOptions, [$css, 'kv-field-separator']);
         if (isset(self::$_inputWidgets[$this->type])) {
@@ -458,10 +462,15 @@ class FieldRange extends Widget
 
     /**
      * Renders the field range widget.
+     * @throws InvalidConfigException
+     * @throws Exception
      */
     protected function renderWidget()
     {
         Html::addCssClass($this->options, 'kv-field-range');
+        Html::addCssClass($this->container, 'kv-field-range-container');
+        $isBs4 = $this->isBs4();
+        $style = ['labelCss' => 'col-sm-3', 'inputCss' => 'col-sm-9'];
         if ($this->_isHorizontalForm) {
             $style = $this->form->getFormLayoutStyle();
             Html::addCssClass($this->labelOptions, $style['labelCss']);
@@ -470,12 +479,16 @@ class FieldRange extends Widget
         if ($this->type === self::INPUT_DATE) {
             $widget = $this->getDatePicker();
         } else {
-            Html::addCssClass($this->container, 'form-group');
+            $css = 'form-group';
+            if ($isBs4 && $this->_isHorizontalForm) {
+                $css = [$css, 'row'];
+            }
+            Html::addCssClass($this->container, $css);
             Html::addCssClass($this->options, 'input-group');
             $tag = ArrayHelper::remove($this->separatorOptions, 'tag', 'span');
             $sep = Html::tag($tag, $this->separator, $this->separatorOptions);
-            if ($this->isBs4()) {
-                $sep = Html::tag('div', $sep, ['class' => 'input-group-append']);
+            if ($isBs4) {
+                $sep = Html::tag('div', $sep, ['class' => 'input-group-append kv-separator-container']);
             }
             $getInput = isset($this->form) ? 'getFormInput' : 'getInput';
             $widget = Html::tag('div', $this->$getInput(1) . $sep . $this->$getInput(2), $this->options);
@@ -485,7 +498,14 @@ class FieldRange extends Widget
         if ($this->isBs4()) {
             $css .= ' text-danger';
         }
-        $error = Html::tag('div', '<div class="' . $css . '"></div>', $this->errorContainer);
+        $preError = '';
+        $errorCss = ['kv-field-range-error'];
+        if ($this->_isHorizontalForm) {
+            $errorCss[] = $style['inputCss'];
+            Html::addCssClass($this->errorContainer, $errorCss);
+            $preError = Html::tag('div', '', ['class' => $style['labelCss']]);
+        }
+        $error = $preError . Html::tag('div', '<div class="' . $css . '"></div>', $this->errorContainer);
         $replaceTokens = [
             '{label}' => Html::label($this->label, null, $this->labelOptions),
             '{widget}' => $widget,
@@ -498,6 +518,7 @@ class FieldRange extends Widget
      * Generate the range input markup for [[DatePicker]] widget.
      *
      * @return string the date picker range input
+     * @throws Exception
      */
     protected function getDatePicker()
     {
@@ -583,6 +604,7 @@ class FieldRange extends Widget
      * @param integer $i the input serial number
      *
      * @return string the input markup
+     * @throws Exception
      */
     protected function getInput($i)
     {
@@ -644,7 +666,7 @@ class FieldRange extends Widget
             );
         } else {
             $this->$widgetOptions = ArrayHelper::merge(
-                $this->$widgetOptions, 
+                $this->$widgetOptions,
                 [
                     'name' => $this->$name,
                     'value' => $this->$value,
@@ -661,7 +683,7 @@ class FieldRange extends Widget
     {
         $view = $this->getView();
         $name = 'kvFieldRange';
-        FieldRangeAsset::register($view);
+        FieldRangeAsset::registerBundle($view, $this->bsVersion);
         $id = '$("#' . $this->options2['id'] . '")';
         $options = Json::encode(
             [

@@ -1,0 +1,12 @@
+/*!
+ * @copyright Copyright &copy; Kartik Visweswaran, Krajee.com, 2014 - 2018
+ * @package yii2-field-range
+ * @version 1.3.4
+ *
+ * Bootstrap 4.x Styling for Field Range 
+ *
+ * Built for Yii Framework 2.0
+ * Author: Kartik Visweswaran
+ * For more Yii related demos visit http://demos.krajee.com
+ */
+.kv-container-from,.kv-container-to{padding:0;border:0}.kv-container-from .form-control,.kv-container-from .input-group-append>.btn,.kv-container-from .input-group-append>.input-group-text{border-top-right-radius:0!important;border-bottom-right-radius:0!important}.kv-container-to .form-control,.kv-container-to .input-group-prepend>.btn,.kv-container-to .input-group-prepend>.input-group-text{border-top-left-radius:0!important;border-bottom-left-radius:0!important}.input-group-append+.kv-container-to{margin-left:-1px}.kv-form-horizontal .kv-field-range{padding:0 .975rem}.kv-form-horizontal .kv-field-range .kv-separator-container{padding-left:.975rem}.kv-form-horizontal .kv-field-range-container .kv-field-range-error{margin-bottom:.975rem}
