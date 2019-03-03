@@ -694,7 +694,7 @@ class FieldRange extends Widget
         );
         $hashVar = $name . '_' . hash('crc32', $options);
         $this->options['data-krajee-' . $name] = $hashVar;
-        $view->registerJs("var {$hashVar} = {$options};\n", View::POS_HEAD);
+        $view->registerJs("var {$hashVar} = {$options};\n", $this->hashVarLoadPosition);
         $view->registerJs("{$id}.{$name}({$hashVar});");
     }
 
